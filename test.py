@@ -32,6 +32,7 @@ def find_hashes(alphabet, min_length, max_length, target_hash, part_number, part
     Поиск слов с заданным хэшем в заданном диапазоне.
     """
     for word in generate_words(alphabet, min_length, max_length, part_number, part_count):
+        print(word)
         word_hash = hashlib.md5(word.encode()).hexdigest()
         if word_hash == target_hash:
             yield word
@@ -39,10 +40,10 @@ def find_hashes(alphabet, min_length, max_length, target_hash, part_number, part
 
 # Пример использования:
 if __name__ == "__main__":
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
     min_length = 1
-    max_length = 5
-    target_hash = "e2fc714c4727ee9395f324cd2e7f331f"
+    max_length = 2
+    target_hash = "187ef4436122d1cc2f40dc2b92f0eba0"
     part_number = 1
     part_count = 4
 

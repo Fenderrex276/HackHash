@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from celery_app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('internal/api/worker/hash/crack/task/', GetHash.as_view()),
 ]

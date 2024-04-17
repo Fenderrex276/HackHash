@@ -10,5 +10,5 @@ class Hash(models.Model):
     request_id = models.CharField(max_length=128)
     status = models.CharField(max_length=15, choices=Status.choices)
     data = models.CharField(max_length=40, null=True)
-
+    hash_data = models.CharField(max_length=150)
 
