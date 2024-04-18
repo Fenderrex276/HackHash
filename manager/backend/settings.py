@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-t86^d-m^dtas2v&-1om$$-@)-8e*lxmg(%h&&l&3)ot5l7!$))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
+WORKER_HOST = "worker"
 # Application definition
 
 INSTALLED_APPS = [
@@ -125,3 +125,5 @@ CACHES = {
         "LOCATION": "unique-snowflake",
     }
 }
+
+CACHE_TIMEOUT = 600

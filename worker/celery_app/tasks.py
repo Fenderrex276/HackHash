@@ -9,9 +9,7 @@ min_length = 1
 
 
 def generate_words(alphabet, min_length, max_length):
-    """
-    Генерация слов на основе заданного алфавита.
-    """
+
     total_words = 0
     for length in range(min_length, max_length + 1):
         total_words += len(alphabet) ** length
@@ -35,6 +33,7 @@ def find_hashes_task(max_length, target_hash, request_id):
     for word in generate_words(alphabet, min_length, max_length):
         word_hash = hashlib.md5(word.encode()).hexdigest()
         if word_hash == target_hash:
+            print(word, "FINISH")
             send_result.delay(word, request_id)
 
 
@@ -47,7 +46,14 @@ def find_hashes_task(max_length, target_hash, request_id):
 @shared_task()
 def send_result(current_word, request_id):
     data = {"current_word": str(current_word), "request_id": request_id}
-    req = requests.patch(url="http://localhost:8000/internal/api/manager/hash/crack/request/", json=data)
+    req = requests.patch(url="http://manager:8000/internal/api/manager/hash/crack/request/", json=data)
+    print(req)
+
+
+@shared_task()
+def timeout_except(request_id):
+    data = {"request_id": request_id}
+    req = requests.patch(url="http://manager:8000/internal/api/manager/hash/crack/request/", json=data)
     print(req)
 
 # Пример использования:

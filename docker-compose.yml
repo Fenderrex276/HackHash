@@ -1,0 +1,37 @@
+version: "3.9"
+
+
+services:
+
+  manager:
+    restart: always
+    build: ./manager
+
+    command: python manage.py runserver 0.0.0.0:8000
+
+    volumes:
+      - ./manager:/src/manager
+    ports:
+      - 8000:8000
+    depends_on:
+      - worker
+
+  worker:
+    restart: always
+    build: ./worker
+
+    command: >
+      /bin/bash -c "python manage.py runserver 0.0.0.0:8090 & celery -A backend worker --loglevel=INFO"
+
+    volumes:
+      - ./worker:/src/worker
+    ports:
+      - 8001:8001
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    ports:
+      - 15672:15672
+      - 5672:5672
