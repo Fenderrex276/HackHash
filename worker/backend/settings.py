@@ -32,7 +32,9 @@ ALLOWED_HOSTS = ["*"]
 CELERY_TASK_TRACK_STARTED = True
 CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
 CELERY_RESULT_BACKEND = 'amqp://guest:guest@rabbitmq:5672//'
-CELERY_TASK_TIME_LIMIT = 60 * 3
+CELERY_TASK_TIME_LIMIT = 60 * 5
+
+MANAGER_HOST = "manager"
 
 INSTALLED_APPS = [
     'django.contrib.admin',

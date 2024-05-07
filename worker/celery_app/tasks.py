@@ -3,7 +3,9 @@ import hashlib
 import math
 import requests
 from celery import shared_task
-
+from celery.schedules import crontab
+#TODO сделать периодическую таску
+from django.conf import settings
 alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
 min_length = 1
 
@@ -13,7 +15,7 @@ def generate_words(alphabet, min_length, max_length):
     total_words = 0
     for length in range(min_length, max_length + 1):
         total_words += len(alphabet) ** length
-    print(total_words)
+    # print(total_words)
 
     current_index = 0
     for length in range(min_length, max_length + 1):
@@ -46,14 +48,14 @@ def find_hashes_task(max_length, target_hash, request_id):
 @shared_task()
 def send_result(current_word, request_id):
     data = {"current_word": str(current_word), "request_id": request_id}
-    req = requests.patch(url="http://manager:8000/internal/api/manager/hash/crack/request/", json=data)
+    req = requests.patch(url=f"http://{settings.MANAGER_HOST}:8000/internal/api/manager/hash/crack/request/", json=data)
     print(req)
 
 
 @shared_task()
 def timeout_except(request_id):
     data = {"request_id": request_id}
-    req = requests.patch(url="http://manager:8000/internal/api/manager/hash/crack/request/", json=data)
+    req = requests.patch(url=f"http://{settings.MANAGER_HOST}:8000/internal/api/manager/hash/crack/request/", json=data)
     print(req)
 
 # Пример использования:
